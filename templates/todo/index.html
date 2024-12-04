@@ -1,0 +1,44 @@
+{% extends 'partials/base.html' %}
+{% block title %}Todo App {% endblock title %}
+
+{% block content %}
+<div class="container border p-4">
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        {{ form }}
+        <input class="btn btn-success btn-block" type="submit" value="Submit">
+    </form>
+
+    <hr>
+
+    <div class="list-group">
+        {% for todo in todos %}
+        <div class="list-group-item mb-3">
+            <!-- Vertical card for each todo -->
+            <div class="card">
+                <div class="card-body">
+                    <small class="text-muted d-block">{{ todo.date }}</small>
+                    {% if todo.complete %}
+                        <p class="mt-2">
+                            <span class="btn btn-success btn-sm">
+                                <i class="far fa-check-circle"></i>
+                            </span> 
+                            {{ todo.content }}
+                        </p>
+                    {% else %}
+                        <p class="mt-2">{{ todo.content }}</p>
+                    {% endif %}
+                </div>
+                
+                
+                </div>
+                <div class="card-footer text-end">
+                    <a class="btn btn-info btn-sm me-1" href="{% url 'todo-update' todo.id %}">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'todo-delete' todo.id %}">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
